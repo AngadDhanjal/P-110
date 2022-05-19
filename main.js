@@ -1,4 +1,4 @@
-// https://teachablemachine.withgoogle.com/models/nvGwpICmy/
+
 
 
 predicition_1 = "";
@@ -22,7 +22,7 @@ function take_snapshot()
 
 console.log('ml5 version',ml5.version);
 
-classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/nvGwpICmy/',modelLoaded);
+classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/nvGwpICmy/model.json',modelLoaded);
 
 function modelLoaded()
 {
@@ -37,3 +37,49 @@ function speak(){
     synth.speak(utterThis);
 }
 
+function check()
+{
+    img = document.getElementById('captured_image');
+    classifier.classify(img,gotResult);
+}
+
+function gotResult(error,results)
+{
+    if(error){
+    console.log(error);
+
+    }else{
+        console.log(results);
+        document.getElementById("result_emotion_name").innerHTML=results[0].label;
+        predicition_1=results[0].label;
+        speak();
+        if(results[0].label=="victory")
+        {
+            document.getElementById("update_emoji").innerHTML="&#9996;";
+            document.getElementById("quote").innerHTML = "That was a Marvelous Victory";
+        }
+        if(results[0].label=="best")
+        {
+            document.getElementById("update_emoji").innerHTML="&#128077;";
+            document.getElementById("quote").innerHTML = "All the best";
+
+        }
+        if(results[0].label=="amazing")
+        {
+            document.getElementById("update_emoji").innerHTML="&#128076;";
+            document.getElementById("quote").innerHTML = "This is looking amazing";
+
+        }
+        if(results[0].label=="Yo")
+        {
+            document.getElementById("update_emoji2").innerHTML="&#129304;";
+            document.getElementById("quote").innerHTML = "Yo Yo ";
+        }
+        if(results[0].label=="fist")
+        {
+            document.getElementById("update_emoji2").innerHTML="&#9994;";
+            document.getElementById("quote").innerHTML = "fist of hand";
+
+        }
+    }
+}
